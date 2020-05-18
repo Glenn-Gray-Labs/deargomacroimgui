@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"github.com/AllenDang/giu"
 	"github.com/cosmos72/gomacro/fast"
 	"io/ioutil"
@@ -30,14 +31,23 @@ func btnTwo() {
 /**********************************************************************************************************************/
 // Read-Only: This is the engine that allows you to rapidly prototype. Changes will only be picked up in a new build.
 /**********************************************************************************************************************/
+var lastRaw []byte
+var lastLayout giu.Layout
+
 func loop() {
-	// Try to Read and Evaluate Sources
-	if raw, err := ioutil.ReadFile("main.go"); err == nil {
-		// The following strips the package line, and appends a call to `layout()` as the final interpreted operation, which
-		// returns our layout as an `interface{}` which we simply cast back to a `gui.Layout` in order to dog-food changes.
-		layout, _ := fast.New().Eval1(string(raw[len("package main\n\n"):]) + "\nlayout()")
-		giu.SingleWindow("deargomacroimgui", layout.Interface().(giu.Layout))
+	// Try to Read and Evaluate Sources: If nothing has changed, do nothing... else, update!
+	if raw, err := ioutil.ReadFile("main.go"); err != nil || bytes.Equal(lastRaw, raw) {
+		giu.SingleWindow("deargomacroimgui", lastLayout)
+		return
+	} else {
+		lastRaw = raw
 	}
+
+	// The following strips the package line, and appends a call to `layout()` as the final interpreted operation, which
+	// returns our layout as an `interface{}` that we simply cast back to a `gui.Layout` in order to dog-food changes.
+	layout, _ := fast.New().Eval1(string(lastRaw[len("package main\n\n"):]) + "\nlayout()")
+	lastLayout = layout.Interface().(giu.Layout)
+	giu.SingleWindow("deargomacroimgui", lastLayout)
 }
 
 func main() {
