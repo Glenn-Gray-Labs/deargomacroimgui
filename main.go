@@ -19,7 +19,7 @@ func layout() giu.Layout {
 		giu.Label("Edit main.go while running, and\nwatch your changes happening live."),
 		giu.Line(
 			giu.Button("#1", btnOne),
-			giu.Button("#2", btnTwo)),
+			giu.Button("Button Two!?", btnTwo)),
 	}
 }
 
