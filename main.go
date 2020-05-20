@@ -2,7 +2,7 @@ package main
 
 import (
 	"bytes"
-	"github.com/AllenDang/giu"
+	"github.com/Glenn-Gray-Labs/giu"
 	"github.com/cosmos72/gomacro/fast"
 	"io/ioutil"
 )
