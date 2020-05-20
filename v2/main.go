@@ -143,7 +143,3 @@ func main() {
 	// TODO: Read a Config File to Setup Master Window
 	giu.NewMasterWindow("deargomacroimgui", 320, 200, 0, nil).Main(loop)
 }
-
-/**********************************************************************************************************************/
-// HACK: Added this to temporarily support rapid 3D development.
-/**********************************************************************************************************************/
