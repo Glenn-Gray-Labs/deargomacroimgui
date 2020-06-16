@@ -1,0 +1,16 @@
+on: [ push, pull_request ]
+
+jobs:
+  Release:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      UPLOAD_GIT: ${{secrets.UPLOAD_GIT}}
+      UPLOAD_KEY: ${{secrets.UPLOAD_KEY}}
+      UPLOADER_EMAIL: ${{secrets.UPLOADER_EMAIL}}
+      UPLOADER_NAME: ${{secrets.UPLOADER_NAME}}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Build
+      uses: calebgray/portapoo.action@master
